@@ -29,7 +29,7 @@ MAX_GEN_LEN="${MAX_GEN_LEN:-32768}"
 # ============ paths — override before launching ============
 HF_CHECKPOINT="${HF_CHECKPOINT:-/home/vllm/weights/Qwen3-30B-A3B}"
 REF_MODEL_PATH="${REF_MODEL_PATH:-/home/vllm/weights/Qwen3-30B-A3B_torch_dist_8cards}"
-PROMPT_DATA="${PROMPT_DATA:-/home/vllm/c00944022/datasets/SWE-bench_Verified/data/swe_train.jsonl}"
+PROMPT_DATA="${PROMPT_DATA:-/home/vllm/c00944022/datasets/swebench_verified/swe_train.jsonl}"
 
 EXP_TAG="${EXP_TAG:-agent_only}"
 STAMP="$(date +%Y%m%d_%H%M%S)"
@@ -66,7 +66,7 @@ ROLLOUT_ARGS=(
    --rollout-max-context-len ${MAX_CONTEXT_LEN}
    --rollout-max-response-len ${MAX_GEN_LEN}
    --rollout-temperature 1.0
-   --rollout-stop-token-ids 248046 248044
+   --rollout-stop-token-ids 151645 151643
    --num-steps-per-rollout 1
    --global-batch-size 64
    --micro-batch-size 1
@@ -96,8 +96,8 @@ ALGO_ARGS=(
    --kl-loss-type low_var_kl
    --kl-coef 0.00
    --entropy-coef 0.00
-   --eps-clip 0.2
-   --eps-clip-high 0.28
+   --eps-clip 1e-4
+   --eps-clip-high 2e-4
 )
 
 OPTIMIZER_ARGS=(
@@ -113,11 +113,11 @@ OPTIMIZER_ARGS=(
 )
 
 VLLM_ARGS=(
-   --rollout-num-gpus-per-engine 4
+   --rollout-num-gpus-per-engine 8
    --vllm-gpu-memory-utilization 0.75
    --vllm-tool-call-parser qwen3_coder
    --vllm-reasoning-parser qwen3
-   --prefill-num-servers 1
+   # --prefill-num-servers 1
    # --vllm-enforce-eager
 )
 
