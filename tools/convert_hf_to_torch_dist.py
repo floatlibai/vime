@@ -7,7 +7,7 @@ import torch.distributed as dist
 from vime.utils.common import is_npu
 
 if is_npu():
-    import mindspeed.megatron_adaptor  # noqa: F401
+    import megatron_adaptor  # noqa: F401
 from megatron.core.enums import ModelType
 from megatron.training.arguments import parse_args, validate_args
 from megatron.training.checkpointing import get_checkpoint_name, get_checkpoint_tracker_filename, save_checkpoint
