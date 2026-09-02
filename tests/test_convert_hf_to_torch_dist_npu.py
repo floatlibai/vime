@@ -13,7 +13,7 @@ import vime.utils.external_utils.command_utils as U
 
 
 TEST_ROOT = Path(os.environ.get("HF_HOME") or "/root")
-MODEL_NAME = "Qwen3-0.6B"
+MODEL_NAME = "Qwen3-4B"
 NUM_GPUS = 8
 MODEL_DIR = TEST_ROOT / "models" / MODEL_NAME
 CHECKPOINT_DIR = TEST_ROOT / "models" / f"{MODEL_NAME}_torch_dist_npu_test"
@@ -87,7 +87,7 @@ def execute():
     model_dir = shlex.quote(str(MODEL_DIR))
     checkpoint_dir = shlex.quote(str(CHECKPOINT_DIR))
     U.exec_command(
-        "source scripts/models/qwen3-0.6B.sh && "
+        "source scripts/models/qwen3-4B.sh && "
         "PYTHONPATH=/root/Megatron-LM "
         f"torchrun --nproc-per-node {NUM_GPUS} tools/convert_hf_to_torch_dist.py "
         "${MODEL_ARGS[@]} "
@@ -102,6 +102,33 @@ def execute():
         if path.is_file() and path.name != "latest_checkpointed_iteration.txt"
     ]
     assert weight_files, f"No checkpoint weights found under {CHECKPOINT_DIR}"
+
+    U.execute_train(
+        train_args=(
+            f"--hf-checkpoint {model_dir} "
+            f"--ref-load {checkpoint_dir} "
+            "--debug-train-only "
+            "--num-rollout 1 "
+            "--start-rollout-id 1 "
+            "--no-load-optim "
+            "--no-load-rng "
+            "--rollout-batch-size 1 "
+            "--global-batch-size 1 "
+            "--kl-coef 0.1 "
+            "--lr-decay-iters 1 "
+            "--optimizer adam "
+            "--lr 1e-6 "
+            "--lr-decay-style constant "
+            "--weight-decay 0.0 "
+            "--adam-beta1 0.9 "
+            "--adam-beta2 0.98 "
+            "--actor-num-nodes 1 "
+            f"--actor-num-gpus-per-node {NUM_GPUS} "
+            "--ci-test "
+        ),
+        num_gpus_per_node=NUM_GPUS,
+        megatron_model_type="qwen3-4B",
+    )
 
 
 def main():
