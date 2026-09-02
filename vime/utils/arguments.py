@@ -10,6 +10,7 @@ from vllm_router.launch_router import RouterArgs
 
 from vime.backends.vllm_utils.arguments import validate_args as vllm_validate_args
 from vime.backends.vllm_utils.arguments import vllm_parse_args
+from vime.utils.common import is_npu
 from vime.utils.eval_config import EvalDatasetConfig, build_eval_dataset_configs, ensure_dataset_list
 from vime.utils.logging_utils import configure_logger
 
