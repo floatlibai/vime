@@ -28,6 +28,7 @@ BUILDKITE_SOURCE = os.environ.get("BUILDKITE_SOURCE", "")
 # (test_name, resource_class, extra_args, env_overrides)
 SUITES = {
     "smk": [
+        ("test_convert_hf_to_torch_dist_npu.py", "npu-8", "", {}),
         ("test_qwen3_4B_npu.py", "npu-8", "", {}),
         ("test_qwen3_30B_A3B_npu.py", "npu-16", "", {}),
         ("test_qwen3_vl_8B_npu.py", "npu-8", "", {}),
