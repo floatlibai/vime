@@ -7,10 +7,10 @@ This guide provides instructions for installing Vime with NPU support, including
 | Component       | Version/Commit                           | Source                                                                                                              |
 | --------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | vime            | main                                     | [GitHub](https://github.com/vllm-project/vime/tree/main)                                                            |
-| Megatron-Bridge | 3fd3768045422d0aa5c97e90a4e6c659aea9acb9 | [GitHub](https://github.com/radixark/Megatron-Bridge)                                                               |
+| Megatron-Bridge | 7f0fb3456f8ffe47599b5fd167b454605d85f932 | [GitHub](https://github.com/radixark/Megatron-Bridge)                                                               |
 | Megatron-LM     | 1dcf0dafa884ad52ffb243625717a3471643e087 | [GitHub](https://github.com/NVIDIA/Megatron-LM)                                                                     |
-| MegatronAdaptor | main                                     | [GitCode](https://gitcode.com/Ascend/MegatronAdaptor)                                                               |
-| TransformerEngineNPU | main                                | [GitCode](https://gitcode.com/Ascend/TransformerEngineNPU)                                                          |
+| MegatronAdaptor | 15582addff3f3d4680e350826fa70d012b475509 | [GitCode](https://gitcode.com/Ascend/MegatronAdaptor)                                                               |
+| TransformerEngineNPU | d743c83d060d5edc48867ecb9e93ec80d81860e4 | [GitCode](https://gitcode.com/Ascend/TransformerEngineNPU)                                                          |
 | MindSpeed       | fc63de5c48426dd019c3b3f39e65f5bdf56e4086 | [GitCode](https://gitcode.com/Ascend/MindSpeed)                                                                     |
 | HDK             | 25.3.RC1                                 | [Ascend](https://www.hiascend.com/hardware/firmware-drivers/commercial?product=7\&model=33)                         |
 | CANN            | 9.0.0                                    | [Ascend](https://www.hiascend.com/developer/download/community/result?module=cann\&cann=9.0.0\&product=7\&model=33) |
@@ -38,7 +38,7 @@ export PATCH_DIR="${WORKSPACE}/vime/docker/npu_patch"
 Used via `PYTHONPATH` (no editable install); it requires `nvidia-modelopt`.
 
 ```bash
-export MEGATRON_BRIDGE_COMMIT=3fd3768045422d0aa5c97e90a4e6c659aea9acb9
+export MEGATRON_BRIDGE_COMMIT=7f0fb3456f8ffe47599b5fd167b454605d85f932
 export MBRIDGE_COMMIT=89eb10887887bc74853f89a4de258c0702932a1c
 pip install "git+https://github.com/ISEEKYAN/mbridge.git@${MBRIDGE_COMMIT}" --no-deps
 git clone --branch bridge https://github.com/radixark/Megatron-Bridge.git "${WORKSPACE}/Megatron-Bridge"
@@ -129,7 +129,7 @@ pip install -v -e "${WORKSPACE}/vllm-ascend"
 Ensure the following packages are pinned to these matching versions：
 
 ```shell
-pip install torch-npu==2.10.0
+pip install torch-npu==2.10.0.post2
 pip install torchvision==0.25.0
 pip install numpy==1.26.4
 ```
