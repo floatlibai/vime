@@ -1,5 +1,6 @@
 import os
 import shlex
+from pathlib import Path
 
 import vime.utils.external_utils.command_utils as U
 
@@ -27,14 +28,16 @@ def prepare():
         "${MODEL_ARGS[@]} "
         f"--hf-checkpoint {model_dir} --save {checkpoint_dir}"
     )
-    tracker = CHECKPOINT_DIR / "latest_checkpointed_iteration.txt"
+
+    checkpoint_path = Path(CHECKPOINT_DIR)
+    tracker = checkpoint_path / "latest_checkpointed_iteration.txt"
     assert tracker.read_text().strip() == "release"
     weight_files = [
         path
-        for path in CHECKPOINT_DIR.rglob("*")
+        for path in checkpoint_path.rglob("*")
         if path.is_file() and path.name != "latest_checkpointed_iteration.txt"
     ]
-    assert weight_files, f"No checkpoint weights found under {CHECKPOINT_DIR}"
+    assert weight_files, f"No checkpoint weights found under {checkpoint_path}"
 
 
 def execute():
